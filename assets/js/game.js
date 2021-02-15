@@ -5,14 +5,26 @@
 //      * Defeat each enemy-robot
 // "LOSE" - Player robot's health is zero or less
 
+// function to set name
+var getPlayerName = function() {
+    var name = "";
+
+    while (name === "" || name === null) {
+        name = prompt("What is your robot's name?");
+    }
+
+    console.log("Your robot's name is " + name);
+    return name;
+};
+
 var playerInfo = {
-    name: window.prompt("What is your robot's name?"),
+    name: getPlayerName(),
     health: 100,
     attack: 10,
     money: 10,
     reset: function() {
         this.health = 100;
-        this.monney = 10;
+        this.money = 10;
         this.attack = 10;
     },
     refillHealth: function() {
