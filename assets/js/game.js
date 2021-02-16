@@ -57,7 +57,36 @@ var randomNumber = function(min, max) {
     var value = Math.floor(Math.random() * (max - min + 1) + min);
 
     return value;
-}
+};
+
+// fight or skip function
+var fightOrSkip = function() {
+    // ask player if they'd like to fight or skip using the fightOrSkip function
+    var promptFight = window.prompt('Would you like to fight or skip this battle? Enter FIGHT or SKIP to choose.');
+
+    if (promptFight === "" || promptFight === null) {
+        window.alert("You need to provide a valid answer! Please try again.");
+        return fightOrSkip();
+    }
+
+    promptFight = promptFight.toLowerCase();
+    // if player picks "skip" confirm and then stop the loop
+    if (promptFight === "skip") {
+        // confirm player wants to skip
+        var confirmSkip = window.confirm("Are you sure you'd like to quit?");
+
+        // if yes (true), leave fight
+        if (confirmSkip) {
+            window.alert(playerInfo.name + " has decided to skip this fight Goodbye!");
+            // subtract money from playerMoney for skipping
+            playerInfo.playerMoney = Math.max(0, playerInfo.money - 10);
+            
+            // return true if player wants to leave
+            return true;
+        }
+    }
+    return false;
+};
 
 // this creates a function named "fight"
 
@@ -67,21 +96,9 @@ var fight = function(enemy) {
     while(enemy.health > 0 && playerInfo.health > 0) {
 
         // ask player if they'd liked to fight or run
-        var promptFight = window.prompt('Would you like FIGHT or SKIP this battle? Enter "FIGHT" or "SKIP" to choose.');
-
-        // if player picks "skip" confirm and then stop the loop
-        if (promptFight === "skip" || promptFight === "SKIP") {
-        // confirm player wants to skip
-        var confirmSkip = window.confirm("Are you sure you'd like to quit?");
-
-        // if yes (true), leave fight
-        if (confirmSkip) {
-            window.alert(playerInfo.name + ' has decided to skip this fight. Goodbye!');
-            // subtract money from playerInfo.money for skipping
-            playerInfo.money = Math.max(0, playerInfo.money - 10);
-            console.log("playerInfo.money", playerInfo.money)
+        if (fightOrSkip()) {
+            // if true, leabe the fight by breaking the loop
             break;
-        }
         }
 
         // generate random damage value based on player's attack power
@@ -248,7 +265,7 @@ var shop = function() {
             shop();
         break;
     }
-}
+};
 
 // start the game when the page loads
 startGame();
